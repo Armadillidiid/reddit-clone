@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { TailwindIndicator } from "@/components/TailwindIndicator";
 import Navbar from "@/components/ui/Navbar";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Breadit",
@@ -29,6 +30,7 @@ export default function RootLayout({
         <div className="container max-w-7xl mx-auto h-full p-12">
           {children}
         </div>
+        <Toaster />
         <TailwindIndicator />
       </body>
     </html>
