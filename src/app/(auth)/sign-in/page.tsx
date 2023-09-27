@@ -1,6 +1,7 @@
 import { buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import SignIn from "@/components/SignIn";
 
 const page = () => {
   return (
@@ -9,6 +10,8 @@ const page = () => {
         <Link href={"/"} className={cn(buttonVariants({ variant: "ghost" }), "self-start -mt-20")}>
           Home
         </Link>
+
+        <SignIn />
       </div>
     </div>
   );
