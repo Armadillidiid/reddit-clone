@@ -30,3 +30,5 @@ export function UserAvatar({ user, ...props }: UserAvatarProps) {
     </Avatar>
   );
 }
+
+export default UserAvatar;
