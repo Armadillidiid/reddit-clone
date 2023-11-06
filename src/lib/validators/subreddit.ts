@@ -6,6 +6,7 @@ export const SubredditValidator = z.object({
 
 export const SubredditSubscriptionValidator = z.object({
   subredditId: z.string(),
+  action: z.enum(["subscribe", "unsubscribe"]),
 });
 
 export type CreateSubredditPayload = z.infer<typeof SubredditValidator>;
