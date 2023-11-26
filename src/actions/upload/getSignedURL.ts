@@ -10,7 +10,6 @@ const allowedFileTypes = [
   "image/png",
   "image/gif",
   "image/webp",
-  "image/svg+xml",
   "video/mp4",
   "video/quicktime",
 ] as const;
