@@ -225,7 +225,7 @@ export const Editor: React.FC<EditorProps> = ({ subredditId }) => {
       title: data.title,
       content: {
         ...blocks,
-        blocks: modifiedBlockData,
+        blocks: modifiedBlockData ?? blocks?.blocks,
       },
       subredditId,
     };
