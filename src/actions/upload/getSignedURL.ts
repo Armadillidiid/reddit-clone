@@ -3,6 +3,7 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { nanoid } from "nanoid";
+import { getAuthSession } from "@/lib/auth";
 
 const allowedFileTypes = [
   "image/jpeg",
@@ -29,6 +30,12 @@ export const getSignedURL = async ({
   fileType,
   fileSize,
 }: GetSignedURLParams): Promise<GetSignedURLResponse> => {
+  const session = await getAuthSession();
+
+  if (!session) {
+    return { failure: "Not authenticated" };
+  }
+
   if (!includes(allowedFileTypes, fileType)) {
     return { failure: "File type not allowed" };
   }
@@ -53,7 +60,7 @@ export const getSignedURL = async ({
     Metadata: {
       fileType: fileType,
       fileSize: fileSize.toString(),
-    }
+    },
   });
 
   try {
@@ -62,7 +69,7 @@ export const getSignedURL = async ({
     });
 
     return { success: { url } };
-  } catch(error) {
+  } catch (error) {
     console.error(error);
     return { failure: "Error creating signed URL" };
   }
