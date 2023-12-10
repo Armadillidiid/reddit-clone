@@ -1,4 +1,4 @@
-// import CommentsSection from '@/components/CommentsSection'
+import CommentsSection from '@/components/CommentSection'
 import PostVoteServer from '@/components/ui/post-vote/PostVoteServer'
 import EditorOutput from '@/components/EditorOutput'
 import { buttonVariants } from '@/components/ui/Button'
@@ -70,12 +70,12 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
           </h1>
 
           <EditorOutput content={post?.content ?? cachedPost.content} />
-          {/* <Suspense */}
-          {/*   fallback={ */}
-          {/*     <Loader2 className='h-5 w-5 animate-spin text-zinc-500' /> */}
-          {/*   }> */}
-          {/*   <CommentsSection postId={post?.id ?? cachedPost.id} /> */}
-          {/* </Suspense> */}
+          <Suspense
+            fallback={
+              <Loader2 className='h-5 w-5 animate-spin text-zinc-500' />
+            }>
+            <CommentsSection postId={post?.id ?? cachedPost.id} />
+          </Suspense>
         </div>
       </div>
     </div>
