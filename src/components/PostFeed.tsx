@@ -16,33 +16,46 @@ interface PostFeedProps {
   session: Session | null;
 }
 
-const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName, session }) => {
+const PostFeed: FC<PostFeedProps> = ({
+  initialPosts,
+  subredditName,
+  session,
+}) => {
   const { ref, entry } = useIntersection({
     root: null,
     threshold: 1,
   });
 
-  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ["infinite-query"],
-    queryFn: async ({ pageParam = 1 }) => {
-      const query =
-        `/api/posts?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
-        (!!subredditName ? `&subredditName=${subredditName}` : "");
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ["infinite-query"],
+      queryFn: async ({ pageParam }) => {
+        const query =
+          `/api/posts?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&lastCursor=${pageParam ?? ""}` +
+          (!!subredditName ? `&subredditName=${subredditName}` : "");
 
-      const { data } = await axios.get(query);
-      return data as ExtendedPost[];
-    },
-    getNextPageParam: (lastPage, pages) => lastPage.length > 0 ? pages.length + 1 : undefined,
-    initialData: { pages: [initialPosts], pageParams: [1] },
-  });
+        const { data } = await axios.get(query);
+        return data as {
+          data: ExtendedPost[];
+          meta: { lastCursor: number | null; hasNextPage: boolean };
+        };
+      },
+      getNextPageParam: (lastPage) => lastPage?.meta.lastCursor ?? null,
+      initialData: {
+        pages: [
+          { data: initialPosts, meta: { lastCursor: null, hasNextPage: true } },
+        ],
+        pageParams: [""],
+      },
+    });
 
   useEffect(() => {
-    if (entry?.isIntersecting) {
+    if (entry?.isIntersecting && hasNextPage) {
       fetchNextPage(); // Load more posts when the last post comes into view
     }
-  }, [entry, fetchNextPage]);
+  }, [entry, fetchNextPage, hasNextPage]);
 
-  const posts = data?.pages.flatMap((page) => page) ?? initialPosts;
+  const posts = data?.pages.flatMap((page) => page.data) ?? initialPosts;
 
   return (
     <ul className="flex flex-col col-span-2 space-y-6">
