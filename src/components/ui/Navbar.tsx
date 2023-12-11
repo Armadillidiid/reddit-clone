@@ -15,7 +15,7 @@ export const Navbar = async () => {
         <Link href="/" className="flex gap-2 items-center">
           <Icons.logo className="w-8 h-8" />
           <p className="hidden text-zinc-700 text-sm font-medium md:block">
-            Breadit
+            Threadit
           </p>
         </Link>
 
