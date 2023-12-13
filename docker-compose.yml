@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: threadit
+    image: threadit:latest
+    build: 
+      context: .
+      target: builder
+    ports:
+      - "3000:3000"
+    env_file: ./.env.local
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - DIRECT_URL=postgresql://postgres:password123@db:5432/postgres
+      - DATABASE_URL=postgresql://postgres:password123@db:5432/postgres?pgbouncer=true
+      - NODE_ENV=development
+    command: sh -c 'source migrate-and-start.sh'
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    restart: always
+    container_name: threadit-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
