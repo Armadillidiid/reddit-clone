@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: threadit
+    image: threadit:latest
+    build:
+      context: .
+      target: builder
+    ports:
+      - "3000:3000"
+    env_file: ./.env.local
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+    command: sh -c 'source migrate-and-start.sh'
+    depends_on:
+      - db
+  db:
+    extends:
+      file: docker-compose.base.yml
+      service: db
+    ports:
+      - ${DB_PORT}:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
