@@ -16,9 +16,12 @@ services:
       - /app/.next
     environment:
       - NODE_ENV=development
+      - REDIS_URL="http://serverless-redis-http:80"
     command: sh -c 'source migrate-and-start.sh'
     depends_on:
       - db
+      - redis
+      - serverless-redis-http
   db:
     extends:
       file: docker-compose.base.yml
@@ -27,6 +30,19 @@ services:
       - ${DB_PORT}:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
+  redis:
+    extends:
+      file: docker-compose.base.yml
+      service: redis
+    ports:
+      - ${REDIS_PORT}:6379
+  serverless-redis-http:
+    image: hiett/serverless-redis-http:latest
+    environment:
+      SRH_MODE: env
+      SRH_TOKEN: ${REDIS_TOKEN}
+      SRH_CONNECTION_STRING: "redis://redis:${REDIS_PORT}"
+    ports:
+      - ${SRH_PORT}:80
 volumes:
   postgres_data:
