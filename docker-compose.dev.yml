@@ -2,8 +2,7 @@ version: "3.8"
 
 services:
   app:
-    container_name: threadit
-    image: threadit:latest
+    container_name: threadit-dev
     build:
       context: .
       target: builder
@@ -16,7 +15,7 @@ services:
       - /app/.next
     environment:
       - NODE_ENV=development
-      - REDIS_URL="http://serverless-redis-http:80"
+      - REDIS_URL=http://serverless-redis-http:80
     command: sh -c 'source migrate-and-start.sh'
     depends_on:
       - db
