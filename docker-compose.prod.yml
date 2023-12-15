@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: threadit-prod
+    build:
+      context: .
+      target: builder
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}?pgbouncer=true
+      - DIRECT_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_BUCKET_REGION=${AWS_BUCKET_REGION}
+      - AWS_BUCKET_NAME=${AWS_BUCKET_NAME}
+      - AWS_CF_URL=${AWS_CF_URL}
+      - AWS_CF_KEY_PAIR_ID=${AWS_CF_KEY_PAIR_ID}
+      - AWS_CF_RSA_PRIVATE_KEY=${AWS_CF_RSA_PRIVATE_KEY}
+      - AWS_CF_DISTRIBUTION_ID=${AWS_CF_DISTRIBUTION_ID}
+      - REDIS_TOKEN=${REDIS_TOKEN}
+      - REDIS_URL=${REDIS_URL}
+    command: sh -c 'source migrate-and-start.sh'
