@@ -3,6 +3,7 @@ version: "3.8"
 services:
   app:
     container_name: threadit-prod
+    image: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
     build:
       context: .
       target: builder
