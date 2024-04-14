@@ -6,7 +6,6 @@ services:
     image: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
     build:
       context: .
-      target: builder
     restart: always
     ports:
       - "3000:3000"
