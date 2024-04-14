@@ -42,7 +42,7 @@ services:
     env_file: ./.env.local
 
   serverless-redis-http:
-    image: hiett/serverless-redis-http:latest
+    image: hiett/serverless-redis-http:0.0.9
     environment:
       SRH_MODE: env
       SRH_TOKEN: ${REDIS_TOKEN}
