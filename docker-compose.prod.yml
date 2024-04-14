@@ -1,5 +1,4 @@
 version: "3.8"
-# NOTE: Remove "--env-file" option from package.json script. It's for docker and not docker-compose.
 
 services:
   app:
