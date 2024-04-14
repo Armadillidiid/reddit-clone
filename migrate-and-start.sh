@@ -1,13 +1,12 @@
 #!/bin/bash
 
+pnpm exec prisma generate
+pnpm exec prisma db push
+
 if [ "$NODE_ENV" = "development" ]; then
-	# Development setup
-	./node_modules/.bin/prisma generate
-	./node_modules/.bin/prisma db push
-	yarn dev
+	# Dev setup
+	pnpm dev
 elif [ "$NODE_ENV" = "production" ]; then
-	# Project setup
-	npx prisma generate
-	npx prisma db push
+	# Prod setup
 	node server.js
 fi
