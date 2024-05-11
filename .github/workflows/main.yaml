@@ -10,7 +10,7 @@ jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
@@ -19,7 +19,7 @@ jobs:
         run: vercel env pull .env --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
         with:
           version: 8
           run_install: false
