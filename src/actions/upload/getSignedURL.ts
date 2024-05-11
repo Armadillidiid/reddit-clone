@@ -4,6 +4,8 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { nanoid } from "nanoid";
 import { getAuthSession } from "@/lib/auth";
+import { env } from "@/env";
+
 
 const allowedFileTypes = [
   "image/jpeg",
@@ -44,15 +46,15 @@ export const getSignedURL = async ({
   }
 
   const s3Client = new S3Client({
-    region: process.env.AWS_BUCKET_REGION,
+    region: env.AWS_BUCKET_REGION,
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? "",
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? "",
+      accessKeyId: env.AWS_ACCESS_KEY_ID ?? "",
+      secretAccessKey: env.AWS_SECRET_ACCESS_KEY ?? "",
     },
   });
 
   const command = new PutObjectCommand({
-    Bucket: process.env.AWS_BUCKET_NAME,
+    Bucket: env.AWS_BUCKET_NAME,
     Key: nanoid(),
     ContentLength: fileSize,
     ContentType: fileType,
