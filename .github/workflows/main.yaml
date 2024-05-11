@@ -38,7 +38,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: pnpm install && pnpm build
 
       - name: Run production migration
         run: pnpm run db:push
