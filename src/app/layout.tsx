@@ -5,6 +5,7 @@ import { TailwindIndicator } from "@/components/TailwindIndicator";
 import Navbar from "@/components/ui/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import Providers from "@/components/Providers";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
   title: "Threadit",
@@ -108,6 +109,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className="min-h-screen pt-12 bg-slate-50 antialiased">
+        <Analytics />
         <Providers>
           <Navbar />
           {authModal}
