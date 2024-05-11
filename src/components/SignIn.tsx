@@ -15,7 +15,7 @@ const SignIn = () => {
       </div>
       <UserAuthForm />
       <p className='px-8 text-center text-sm text-muted-foreground'>
-        New to Treadit?{' '}
+        New to Threadit?{' '}
         <Link
           href='/sign-up'
           className='hover:text-brand text-sm underline underline-offset-4'>
