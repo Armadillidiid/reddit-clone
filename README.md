@@ -11,9 +11,9 @@
 - 🔥 Type checking [TypeScript](https://www.typescriptlang.org)
 - 💎 Integrate with [Tailwind CSS](https://tailwindcss.com) and Shadcn UI
 - 📂 File upload with AWS S3
-- 🔒 Authentication with [NextAuth](https://next-auth.js.org) 
+- 🔒 Authentication with [NextAuth](https://next-auth.js.org)
 - 👤 Social Auth (Google)
-- ♻️ Type-safe environment variables with T3 Env
+- ♻️  Type-safe environment variables with T3 Env
 - ⌨️  Form with React Hook From
 - 🔴 Validation library with Zod
 - ⚓ Containerization with Docker
@@ -35,7 +35,9 @@ git clone https://github.com/Armadillidiid/reddit-clone.git
 
 2. #### Go to folder, and copy `env-local-dev` as `.env.local`
 
-```
+For `NEXTAUTH_SECRET`, use the openssl command to generate a random secret.
+
+```sh
 cd reddit-clone/
 cp env-local-dev .env.local
 ```
